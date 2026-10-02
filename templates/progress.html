@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Progress - ACEest Fitness &amp; Gym{% endblock %}
+
+{% block content %}
+<h1>Weekly Progress &amp; Adherence</h1>
+
+<form class="form" method="POST" action="{{ url_for('progress') }}">
+    <label for="client_name">Client <span class="req">*</span></label>
+    <select id="client_name" name="client_name" required>
+        <option value="">-- Select a client --</option>
+        {% for c in clients %}
+        <option value="{{ c['name'] }}">{{ c["name"] }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="adherence">Adherence (%) <span class="req">*</span></label>
+    <input type="number" id="adherence" name="adherence" min="0" max="100" required>
+
+    <button type="submit" class="btn">Record Progress</button>
+</form>
+
+<h2>Recorded Progress</h2>
+{% if progress %}
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Week</th>
+            <th>Adherence (%)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in progress %}
+        <tr>
+            <td>{{ p["client_name"] }}</td>
+            <td>{{ p["week"] }}</td>
+            <td>{{ p["adherence"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">No progress recorded yet.</p>
+{% endif %}
+{% endblock %}

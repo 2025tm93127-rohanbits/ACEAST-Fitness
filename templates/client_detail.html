@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}{{ client["name"] }} - ACEest Fitness &amp; Gym{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <h1>{{ client["name"] }}</h1>
+    <a class="btn" href="{{ url_for('clients') }}">&larr; Back to Clients</a>
+</div>
+
+<section class="detail-grid">
+    <div class="detail-box">
+        <h2>Profile</h2>
+        <ul class="kv">
+            <li><span>Age</span><strong>{{ client["age"] if client["age"] is not none else "-" }}</strong></li>
+            <li><span>Height</span><strong>{{ client["height"] if client["height"] is not none else "-" }} cm</strong></li>
+            <li><span>Weight</span><strong>{{ client["weight"] if client["weight"] is not none else "-" }} kg</strong></li>
+            <li><span>Program</span><strong>{{ client["program"] }}</strong></li>
+            <li><span>Program Notes</span><strong>{{ program_desc }}</strong></li>
+        </ul>
+    </div>
+
+    <div class="detail-box">
+        <h2>Calories &amp; BMI</h2>
+        <ul class="kv">
+            <li><span>Daily Calorie Target</span>
+                <strong>{{ client["calories"] if client["calories"] is not none else "-" }} kcal/day</strong></li>
+            <li><span>BMI</span>
+                <strong>{% if bmi is not none %}{{ bmi }} ({{ bmi_category }}){% else %}-{% endif %}</strong></li>
+        </ul>
+    </div>
+
+    <div class="detail-box">
+        <h2>Goals</h2>
+        <ul class="kv">
+            <li><span>Target Weight</span>
+                <strong>{{ client["target_weight"] if client["target_weight"] is not none else "-" }} kg</strong></li>
+            <li><span>Target Adherence</span>
+                <strong>{{ client["target_adherence"] if client["target_adherence"] is not none else "-" }}%</strong></li>
+        </ul>
+    </div>
+
+    <div class="detail-box">
+        <h2>Progress</h2>
+        <ul class="kv">
+            <li><span>Weeks Logged</span><strong>{{ progress|length }}</strong></li>
+            <li><span>Average Adherence</span>
+                <strong>{% if avg_adherence is not none %}{{ avg_adherence }}%{% else %}-{% endif %}</strong></li>
+        </ul>
+        {% if progress %}
+        <table class="data-table small">
+            <thead><tr><th>Week</th><th>Adherence (%)</th></tr></thead>
+            <tbody>
+                {% for p in progress %}
+                <tr><td>{{ p["week"] }}</td><td>{{ p["adherence"] }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <a class="btn" href="{{ url_for('progress') }}">Record Progress</a>
+    </div>
+</section>
+{% endblock %}

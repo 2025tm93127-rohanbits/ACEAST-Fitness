@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Programs - ACEest Fitness &amp; Gym{% endblock %}
+
+{% block content %}
+<h1>Fitness Programs</h1>
+<p>Each program defines a calorie factor used to compute a client's daily
+   calorie target: <strong>daily calories = weight (kg) &times; factor</strong>.</p>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Program</th>
+            <th>Description</th>
+            <th>Calorie Factor (kcal/kg)</th>
+            <th>Example (80 kg)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pname, pdata in programs.items() %}
+        <tr>
+            <td>{{ pname }}</td>
+            <td>{{ pdata.desc }}</td>
+            <td>{{ pdata.factor }}</td>
+            <td>{{ (80 * pdata.factor) }} kcal/day</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Add Client - ACEest Fitness &amp; Gym{% endblock %}
+
+{% block content %}
+<h1>Add Client</h1>
+
+<form class="form" method="POST" action="{{ url_for('add_client') }}">
+    <label for="name">Name <span class="req">*</span></label>
+    <input type="text" id="name" name="name" value="{{ form.get('name', '') }}" required>
+
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" min="0" value="{{ form.get('age', '') }}">
+
+    <label for="height">Height (cm)</label>
+    <input type="number" step="0.1" id="height" name="height" min="0" value="{{ form.get('height', '') }}">
+
+    <label for="weight">Weight (kg)</label>
+    <input type="number" step="0.1" id="weight" name="weight" min="0" value="{{ form.get('weight', '') }}">
+
+    <label for="program">Program <span class="req">*</span></label>
+    <select id="program" name="program" required>
+        <option value="">-- Select a program --</option>
+        {% for pname, pdata in programs.items() %}
+        <option value="{{ pname }}" {% if form.get('program') == pname %}selected{% endif %}>
+            {{ pname }} (x{{ pdata.factor }} kcal/kg)
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="target_weight">Target Weight (kg)</label>
+    <input type="number" step="0.1" id="target_weight" name="target_weight" min="0" value="{{ form.get('target_weight', '') }}">
+
+    <label for="target_adherence">Target Adherence (%)</label>
+    <input type="number" id="target_adherence" name="target_adherence" min="0" max="100" value="{{ form.get('target_adherence', '') }}">
+
+    <p class="hint">Daily calorie target is calculated automatically as
+        <strong>weight &times; program factor</strong>.</p>
+
+    <button type="submit" class="btn">Save Client</button>
+</form>
+{% endblock %}

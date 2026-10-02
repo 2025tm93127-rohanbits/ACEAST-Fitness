@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Home - ACEest Fitness &amp; Gym{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to ACEest Fitness &amp; Gym</h1>
+    <p>Manage clients, fitness programs, calorie targets and weekly progress.</p>
+</section>
+
+<section class="cards">
+    <div class="card">
+        <h2>{{ client_count }}</h2>
+        <p>Registered Clients</p>
+        <a class="btn" href="{{ url_for('clients') }}">View Clients</a>
+    </div>
+    <div class="card">
+        <h2>{{ program_count }}</h2>
+        <p>Fitness Programs</p>
+        <a class="btn" href="{{ url_for('programs') }}">View Programs</a>
+    </div>
+    <div class="card">
+        <h2>+</h2>
+        <p>Add a New Client</p>
+        <a class="btn" href="{{ url_for('add_client') }}">Add Client</a>
+    </div>
+    <div class="card">
+        <h2>%</h2>
+        <p>Record Weekly Progress</p>
+        <a class="btn" href="{{ url_for('progress') }}">Track Progress</a>
+    </div>
+</section>
+{% endblock %}
