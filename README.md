@@ -52,6 +52,29 @@ pip install -r requirements.txt
 python app.py
 ```
 
+## Run with Docker
+
+```bash
+docker build -t aceest-fitness .
+docker run -p 5000:5000 aceest-fitness
+```
+
+Then open http://127.0.0.1:5000
+
+The image serves the app with gunicorn on port 5000. The SQLite database
+is written to `/app/data` inside the container; mount a volume to persist it:
+
+```bash
+docker run -p 5000:5000 -v aceest_data:/app/data aceest-fitness
+```
+
+## Run tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
 ## Configuration
 
 | Env var        | Purpose                        | Default                 |
