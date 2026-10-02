@@ -1,5 +1,7 @@
 # ACEest Fitness & Gym
 
+[![CI](https://github.com/2025tm93127-rohanbits/ACEAST-Fitness/actions/workflows/main.yml/badge.svg)](https://github.com/2025tm93127-rohanbits/ACEAST-Fitness/actions/workflows/main.yml)
+
 Flask web application for the *Introduction to DevOps* assignment
 (CSIZG514 / SEZG514). A web port of the original ACEest Fitness & Gym
 desktop app, built to be easy to run, test, containerise, and build in CI.
