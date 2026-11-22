@@ -135,7 +135,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-Expected result: **all tests pass** (29 tests). For a quiet summary use
+Expected result: **all tests pass** (37 tests). For a quiet summary use
 `pytest -q`; for verbose output use `pytest -v` (verbose is the default via
 `pytest.ini`).
 
@@ -147,6 +147,15 @@ Expected result: **all tests pass** (29 tests). For a quiet summary use
   input, unknown program, duplicate name), client detail (BMI display,
   not-found redirect), programs page, and progress (valid record, unknown
   client, adherence over 100%).
+- Operational endpoints: `/health` (OK and database-unavailable 503),
+  `/version` metadata, version/variant shown in the footer, semver format of
+  `__version__`.
+
+**Coverage report** (also consumed by SonarQube):
+
+```bash
+pytest --cov --cov-report=term --cov-report=xml --junitxml=test-results.xml
+```
 
 ---
 
@@ -190,6 +199,15 @@ secrets are hard-coded).
 |-----------------|-------------------------------------|-----------------------|
 | `ACEEST_DB`     | SQLite database file path           | `aceest_fitness.db`   |
 | `ACEEST_SECRET` | Flask secret key (flash messages)   | `aceest-dev-key`      |
+| `APP_VERSION`   | Version reported by the app         | `__version__` in `app.py` |
+| `APP_VARIANT`   | Deployment track label (stable, blue, green, canary, A, B) | `stable` |
+| `GIT_COMMIT`    | Source commit of the running build  | `unknown`             |
+
+`APP_VERSION` and `GIT_COMMIT` are baked into the image via build args:
+
+```bash
+docker build --build-arg APP_VERSION=1.1.0 --build-arg GIT_COMMIT=$(git rev-parse --short HEAD) -t aceest-fitness:1.1.0 .
+```
 
 ---
 
@@ -203,6 +221,8 @@ secrets are hard-coded).
 | GET      | `/clients/<id>`  | Client detail (calories + BMI)    |
 | GET      | `/programs`      | List programs and calorie factors |
 | GET/POST | `/progress`      | Record / view weekly progress     |
+| GET      | `/health`        | Health probe (JSON, 503 if DB down) |
+| GET      | `/version`       | Version, variant and commit (JSON) |
 
 ---
 

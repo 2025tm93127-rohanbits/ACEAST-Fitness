@@ -1,0 +1,15 @@
+[run]
+source = .
+branch = True
+relative_files = True
+omit =
+    tests/*
+    venv/*
+    .venv/*
+
+[report]
+show_missing = True
+skip_covered = False
+
+[xml]
+output = coverage.xml
