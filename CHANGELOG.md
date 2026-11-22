@@ -7,7 +7,7 @@ Registry (`ghcr.io/2025tm93127-rohanbits/aceest-fitness`).
 
 ## [Unreleased]
 
-## [1.1.0]
+## [1.1.0] - 2026-11-23
 
 ### Added
 - `/health` endpoint (app + database check, HTTP 503 when the DB is
@@ -26,7 +26,12 @@ Registry (`ghcr.io/2025tm93127-rohanbits/aceest-fitness`).
   and PRs to `main`/`develop`; publishes test and coverage reports and
   smoke-tests the built container.
 
-## [1.0.0]
+### Documentation
+- `BRANCHING.md`: Git Flow branch model, SemVer, tag-to-image mapping,
+  release and rollback procedure; PR template; `.gitattributes` (LF endings).
+- Original Tkinter desktop versions archived under `legacy/desktop/`.
+
+## [1.0.0] - 2026-10-02
 
 ### Added
 - Flask port of the ACEest desktop app (client management, programs, calorie
