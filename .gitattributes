@@ -1,0 +1,8 @@
+# Normalise line endings: the repo is edited on Windows but built on Linux
+# (Jenkins agents, Docker, GitHub Actions). Shell-sensitive files must stay LF.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.db  binary
