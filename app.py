@@ -22,12 +22,42 @@ from datetime import datetime
 from flask import (
     Flask,
     g,
+    jsonify,
     redirect,
     render_template,
     request,
     url_for,
     flash,
 )
+
+# ---------------------------------------------------------------------------
+# Release metadata
+# ---------------------------------------------------------------------------
+# Semantic version of this code base. Bumped on every release and mirrored by
+# the matching Git tag (vX.Y.Z) and container image tag.
+__version__ = "1.1.0"
+
+
+def get_app_version():
+    """Version reported by the running app.
+
+    APP_VERSION (set by the Docker build / Kubernetes manifest) wins over the
+    in-code default, so the exact deployed image version is always visible.
+    """
+    return os.environ.get("APP_VERSION", __version__)
+
+
+def get_build_info():
+    """Release metadata exposed via /version and the page footer.
+
+    APP_VARIANT labels the deployment track (e.g. stable, blue, green, canary,
+    A, B) so traffic-splitting strategies can be observed from the outside.
+    """
+    return {
+        "version": get_app_version(),
+        "variant": os.environ.get("APP_VARIANT", "stable"),
+        "commit": os.environ.get("GIT_COMMIT", "unknown"),
+    }
 
 # ---------------------------------------------------------------------------
 # Business data (carried over from Aceestver-2.2.4.py)
@@ -172,6 +202,27 @@ def create_app(database=None):
 
     app.teardown_appcontext(close_db)
     init_db(app)
+
+    @app.context_processor
+    def inject_build_info():
+        return {"build_info": get_build_info()}
+
+    # ---------------- Operational endpoints ----------------
+
+    @app.route("/health")
+    def health():
+        """Liveness/readiness probe: app is up and the database answers."""
+        try:
+            get_db().execute("SELECT 1").fetchone()
+        except sqlite3.Error:
+            app.logger.exception("Health check: database unavailable")
+            return jsonify(status="error", database="unavailable"), 503
+        return jsonify(status="ok", database="ok", version=get_app_version())
+
+    @app.route("/version")
+    def version():
+        """Release metadata of the running instance."""
+        return jsonify(get_build_info())
 
     # ---------------- Routes ----------------
 
