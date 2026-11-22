@@ -26,3 +26,6 @@ README.md
 .idea/
 .DS_Store
 Thumbs.db
+
+# Legacy desktop reference scripts (not part of the image)
+legacy/
