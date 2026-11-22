@@ -26,11 +26,6 @@ README.md
 .idea/
 .DS_Store
 Thumbs.db
-.coveragerc
-coverage.xml
-test-results.xml
-sonar-project.properties
-.scannerwork/
-CHANGELOG.md
-.github/
-Jenkinsfile
+
+# Legacy desktop reference scripts (not part of the image)
+legacy/
